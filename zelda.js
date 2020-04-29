@@ -53,16 +53,9 @@ class zelda extends Phaser.Scene {
 		this.load.image('cible','assets/cible.png');
 		this.load.image('ver','assets/ver.png');
 
-
-
-
-function preload(){
-	this.load.image('background','assets/backM.png');
-	this.load.spritesheet('perso', 'assets/Vaisseau.png',{frameWidth: 27.6, frameHeight:20});
-	
-}
-
 	}
+
+
 
 	create() {
 		this.physics.world.setBounds(0, 0, 2000, 600);
