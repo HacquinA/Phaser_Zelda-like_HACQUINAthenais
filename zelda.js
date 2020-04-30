@@ -6,7 +6,7 @@ class zelda extends Phaser.Scene {
 	init(){
 		var cursors;
 		var player;
-		var flai;
+		var flai = 3;
 		var game;
 		var boutonFeu;
 		var groupeBullets;
@@ -18,8 +18,10 @@ class zelda extends Phaser.Scene {
 		var vie = 3;
 		var cibles;
 		var aideTir;
+		var aideTir2;
 		var ver;
 		var pic;
+		var vie3;
 		
 
 	}
@@ -219,12 +221,31 @@ class zelda extends Phaser.Scene {
 
 	        this.physics.add.collider(this.platforms,this.player);
 
+
 		//Flai 
 
 			this.flai = this.physics.add.sprite(100,100,'flai');
 			this.flai.setCollideWorldBounds(true);
 			this.physics.add.collider(this.flai,this.platforms);
-			this.physics.add.collider(this.flai,this.house);
+			this.physics.add.collider(this.flai,this.player);
+
+			function hitFlai (bullet, flai) {
+			    bullet.destroy();
+			    flai.destroy();  	  
+			}
+
+
+			this.physics.add.overlap(this.groupeBullets, this.flai, hitFlai, null,this);
+
+		// Fonction touché par flai 
+
+			function toucheFlai(player, flai){
+				this.vie --;
+				this.vie3.destroy();
+				this.vie2 = this.add.image(70,50,'vie2').setScale(1.25).setScrollFactor(0);
+			}
+
+			this.physics.add.overlap(this.player, this.flai, toucheFlai, null,this);
 
 
 		// anims flai
@@ -260,7 +281,7 @@ class zelda extends Phaser.Scene {
 
 			function hit (bullet, cible) {
 			    bullet.destroy();
-			    cible.destroy(); 
+			    cible.destroy();  
 			    this.scoreR += 1;
 				this.scoreTexte.setText('Rocher détruit: '+ this.scoreR);  
 			}
@@ -270,11 +291,18 @@ class zelda extends Phaser.Scene {
 
 		// Texte
 
-			this.aideTir = this.add.text(10, 350, "Pour tirer une boule de feu appuie sur A !", {'font': '14px', fill: '#fff'});
-			this.aideTir.visible = false;
+			this.aideTir = this.add.text(10, 500, "Pour tirer une boule de feu appuie sur A ! E pour mettre un coup de bec !", {'font': '14px', fill: '#fff'});
+			this.aideTir2 = this.add.text(10, 530, "Detruit les rochers et recupere des vers", {'font': '14px', fill: '#fff'});
 
 			this.scoreText = this.add.text(25,100, 'Ver: 0', {fontsize: '32px', fill: '#000'}).setScale(1.25).setScrollFactor(0);
 			this.scoreTexte = this.add.text(25,130, 'Rocher detruit:  0', {fontsize: '32px', fill: '#000'}).setScale(1.25).setScrollFactor(0);
+
+			this. timedEvent = this.time.delayedCall(7000, texte, [], this);
+
+			function texte(aideTir){
+				this.aideTir.destroy();
+				this.aideTir2.destroy();
+			}
 
 		// Ver	
 
