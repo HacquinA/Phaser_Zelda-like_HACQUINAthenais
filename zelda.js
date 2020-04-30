@@ -53,7 +53,11 @@ class zelda extends Phaser.Scene {
 		this.load.image('cible','assets/cible.png');
 		this.load.image('ver','assets/ver.png');
 
-	create() {
+	}
+
+
+
+	create(){
 		this.physics.world.setBounds(0, 0, 2000, 600);
 
 		//monde 
@@ -65,17 +69,11 @@ class zelda extends Phaser.Scene {
 	   	this.add.image(200,500,'invi');
 	   	this.physics.add.collider(this.platforms,this.player);*/
 
-   this.add.image(512,385,'background');
 
-   this.cursors = this.input.keyboard.createCursorKeys();
-   boutonFeu = this.input.keyboard.addKey('A');
 
 	   	//Vie
 
 			this.vie3 = this.add.image(70,50,'vie3').setScale(1.25).setScrollFactor(0);
-
-
-			
 
 	   // Perso 
 
@@ -92,87 +90,74 @@ class zelda extends Phaser.Scene {
 			});
 
 
-		this.anims.create({
-		    key: 'left',
-		    frames: this.anims.generateFrameNumbers('perso', { start: 2, end: 3 }),
-		    frameRate: 10,
-		    repeat: -1
-		});
-
-		this.anims.create({
-		    key: 'right',
-		    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 1 }),
-		    frameRate: 10,
-		    repeat: -1
-		});
-
-		this.anims.create({
-		    key: 'stop',
-		    frames: [ { key: 'perso', frame: 6 } ],
-		    frameRate: 20
-		});
-
-		this.anims.create({
-		    key: 'up',
-		    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 1 }),
-		    frameRate: 10,
-		    repeat: -1
-		});
-
-		this.anims.create({
-		    key: 'down',
-		    frames: this.anims.generateFrameNumbers('perso', { start: 2, end: 3 }),
-		    frameRate: 10,
-		    repeat: -1
-		});
-
-		//tir Snay 
-
-		var direction = 'right';
-		this.groupeBullets = this.physics.add.group(); 
-
-		//House 
-
-		this.house = this.physics.add.group(); 
-		this.house = this.physics.add.sprite(120,100,'house');
-		this.house.setBounce(0.02);
-		this.house.setCollideWorldBounds(true);
-		this.physics.add.collider(this.house,this.player);
-
-
-
 			this.anims.create({
-			    key: 'right',
-			    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 1 }),
+			    key: 'left',
+			    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 2 }),
 			    frameRate: 10,
 			    repeat: -1
 			});
 
 			this.anims.create({
-			    key: 'stop',
-			    frames: [ { key: 'perso', frame: 6 } ],
+			    key: 'turn',
+			    frames: [ { key: 'perso', frame: 1 } ],
 			    frameRate: 20
 			});
 
 			this.anims.create({
+			    key: 'right',
+			    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 2 }),
+			    frameRate: 10,
+			    repeat: -1
+			});
+
+			this.anims.create({
 			    key: 'up',
-			    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 1 }),
+			    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 2 }),
 			    frameRate: 10,
 			    repeat: -1
 			});
 
 			this.anims.create({
 			    key: 'down',
-			    frames: this.anims.generateFrameNumbers('perso', { start: 2, end: 3 }),
+			    frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 2 }),
 			    frameRate: 10,
 			    repeat: -1
 			});
 
+		
+
 			this.anims.create({
-			    key: 'pic',
-			    frames: this.anims.generateFrameNumbers('perso', { start: 5, end: 5 }),
-			    frameRate: 10,
-			    repeat: -1
+				key: 'right',
+				frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 1 }),
+				frameRate: 10,
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: 'stop',
+				frames: [ { key: 'perso', frame: 6 } ],
+				frameRate: 20
+			});
+
+			this.anims.create({
+				key: 'up',
+				frames: this.anims.generateFrameNumbers('perso', { start: 0, end: 1 }),
+				frameRate: 10,
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: 'down',
+				frames: this.anims.generateFrameNumbers('perso', { start: 2, end: 3 }),
+				frameRate: 10,
+				repeat: -1
+			});
+
+			this.anims.create({
+				key: 'pic',
+				frames: this.anims.generateFrameNumbers('perso', { start: 5, end: 5 }),
+				frameRate: 10,
+				repeat: -1
 			});
 
 
@@ -234,62 +219,6 @@ class zelda extends Phaser.Scene {
 
 	        this.physics.add.collider(this.platforms,this.player);
 
-
- // Deplacement perso
-
-		if (this.cursors.left.isDown){
-
-			this.player.setVelocityX(-200);
-
-			this.player.setFlipX(true);
-
-			this.player.anims.play('left', true);
-
-			this.player.direction = 'left';
-
-
-
-		   
-		}
-		else if (this.cursors.right.isDown){
-		    this.player.setVelocityX(200);
-
-		    this.player.setFlipX(false);
-
-		    this.player.anims.play('left', true);
-
-		    this.player.direction = 'right';
-
-
-		}
-		else{
-		    this.player.setVelocityX(0);
-
-		    this.player.anims.play('stop');
-
-		}
-
-		if (this.cursors.up.isDown){
-               this.player.setVelocityY(-200);
-
-               this.player.anims.play('up', true);
-        }
-
-        else if (this.cursors.down.isDown){
-                this.player.setVelocityY(400);
-                this.player.setFlipX(true);
-        }
-        else{
-                this.player.setVelocityY(0);
-
-        }
-
-		if (this.cursors.down.isDown){
-		   this.player.setVelocityY(200);
-
-			
-
-
 		//Flai 
 
 			this.flai = this.physics.add.sprite(100,100,'flai');
@@ -318,24 +247,6 @@ class zelda extends Phaser.Scene {
 
 		var scoreR = 0 ;
 		
-
-	//tir Snay 
-
-	if ( Phaser.Input.Keyboard.JustDown(boutonFeu)) {
-	   if (this.player.direction == 'left') { 
-            this.coefDir = -1; 
-        } 
-       else{ 
-            this.coefDir = 1 
-        }
-                // on crée la balle a coté du joueur
-                var bullet = this.groupeBullets.create(this.player.x + (25 * this.coefDir), this.player.y - 4, 'bullet');
-                // parametres physiques de la balle.
-                bullet.body.allowGravity =false;
-                bullet.setVelocity(1000 * this.coefDir, 0);
-	}
-	
-	
 
 			this.cibles = this.physics.add.staticGroup();
 	          	this.cibles.create(100,575,'cible');
@@ -385,9 +296,6 @@ class zelda extends Phaser.Scene {
 
 		//Fonction récupération Vers
 
-
-		
-
 			function collectVer(player, ver){
 				ver.disableBody(true,true);
 				this.score += 1;
@@ -398,71 +306,67 @@ class zelda extends Phaser.Scene {
 
 
 			this.cursors = this.input.keyboard.createCursorKeys();
-	}
+
+}
 
 
-
-  	update() {
+  	update(){
 
   		console.log(this.score =0);
   		//console.log(this.scoreR =0); 
 
 		// Deplacement perso
 
-				if (this.cursors.left.isDown){
+			if (this.cursors.left.isDown){
 
-					this.player.setVelocityX(-200);
+				this.player.setVelocityX(-200);
 
-					this.player.setFlipX(true);
+				this.player.setFlipX(true);
 
-					this.player.anims.play('left', true);
+				this.player.anims.play('left', true);
 
-					this.player.direction = 'left';
+				this.player.direction = 'left';
+			}
 
+			else if (this.cursors.right.isDown){
+				this.player.setVelocityX(200);
 
+				this.player.setFlipX(false);
 
-				   
-				}
-				else if (this.cursors.right.isDown){
-				    this.player.setVelocityX(200);
+				this.player.anims.play('left', true);
 
-				    this.player.setFlipX(false);
+				 this.player.direction = 'right';
+			}
 
-				    this.player.anims.play('left', true);
+			else{
+				this.player.setVelocityX(0);
 
-				    this.player.direction = 'right';
+				this.player.anims.play('stop');
 
+			}
 
-				}
-				else{
-				    this.player.setVelocityX(0);
+			if (this.cursors.up.isDown){
+		        this.player.setVelocityY(-200);
 
-				    this.player.anims.play('stop');
+		        this.player.anims.play('up', true);
+		    }
 
-				}
+		    else if (this.cursors.down.isDown){
+		        this.player.setVelocityY(400);
+		        this.player.setFlipX(true);
+		    }
 
-				if (this.cursors.up.isDown){
-		               this.player.setVelocityY(-200);
+		    else{
+		        this.player.setVelocityY(0);
+			}
 
-		               this.player.anims.play('up', true);
-		        }
+			if (this.cursors.down.isDown){
+				this.player.setVelocityY(200);
 
-		        else if (this.cursors.down.isDown){
-		                this.player.setVelocityY(400);
-		                this.player.setFlipX(true);
-		        }
-		        else{
-		                this.player.setVelocityY(0);
+				this.player.anims.play('down', true);
 
-		        }
-
-				if (this.cursors.down.isDown){
-				   this.player.setVelocityY(200);
-
-				   this.player.anims.play('down', true);
-
-				   this.player.direction = 'down';
-				}
+				this.player.direction = 'down';
+			}
 
 		//tir Snay 
 
@@ -473,25 +377,25 @@ class zelda extends Phaser.Scene {
 		       	else{ 
 		            this.coefDir = 1 
 		        }
-		            // on crée la balle a coté du joueur
-		            var bullet = this.groupeBullets.create(this.player.x + (25 * this.coefDir), this.player.y - 4, 'bullet');
-		            // parametres physiques de la balle.
-		            bullet.body.allowGravity =false;
-		            bullet.setVelocity(1000 * this.coefDir, 0);
-				}
+		        // on crée la balle a coté du joueur
+		        var bullet = this.groupeBullets.create(this.player.x + (25 * this.coefDir), this.player.y - 4, 'bullet');
+		        // parametres physiques de la balle.
+		        bullet.body.allowGravity =false;
+		        bullet.setVelocity(1000 * this.coefDir, 0);
+			}
 				
 		// pic 
 
 			if ( Phaser.Input.Keyboard.JustDown(this.pic)) {
 			   	if (this.player.direction == 'left') { 
 		            this.coefDir = -1; 
-		        } 
+		    	} 
 		       	else{ 
 		            this.coefDir = 1 
 		        }
 		            this.player.anims.play('pic', true);
 		            
-				}
+			}
 				
 
 
@@ -523,14 +427,14 @@ class zelda extends Phaser.Scene {
 		// déplacement flai
 
 			if (this.flai.x >= 300){
-	    	this.tweens.add({
-		    	targets: this.flai,
-		   	 	x : -100,
-		    	ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
-		    	duration: 5000,
-		    	repeat: 0,            // -1: infinity
-		    	yoyo: false
-			});
+	    		this.tweens.add({
+			    	targets: this.flai,
+			   	 	x : -100,
+			    	ease: 'Linear',       // 'Cubic', 'Elastic', 'Bounce', 'Back'
+			    	duration: 5000,
+			    	repeat: 0,            // -1: infinity
+			    	yoyo: false
+				});
 			this.flai.anims.play('leftF', true);
 			this.flai.setFlipY(false);
 			}
@@ -543,17 +447,10 @@ class zelda extends Phaser.Scene {
 			    	duration: 5000,
 			    	repeat: 0,            // -1: infinity
 			    	yoyo: false
-			});
+				});
 				this.flai.anims.play('rightF', true);
 				this.flai.setFlipY(false);
 
-	}   
-				
-
-
-
-
-
-
+			}
 	}
 }
